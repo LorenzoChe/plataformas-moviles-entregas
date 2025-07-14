@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Versiones con Git</title>
+    <!-- Bootstrap CSS -->
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <!-- Navbar Component -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-git"></i> Git Tutorial
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#comandos">Comandos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#comparacion">Comparación</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#formulario">Formulario</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Título centrado -->
+        <h1 class="text-center mb-4">Control de Versiones con Git</h1>
+
+        <!-- Párrafo más grande -->
+        <p class="lead fs-4"><strong>Git</strong> es un sistema de control de versiones distribuido, ampliamente utilizado en el desarrollo de
+            software moderno. Fue creado para gestionar proyectos de forma rápida, eficiente y colaborativa.</p>
+
+        <!-- Botones para componentes avanzados -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <button class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#infoModal">
+                    <i class="bi bi-info-circle"></i> Más Info
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-warning w-100" data-bs-toggle="collapse" data-bs-target="#collapseInfo">
+                    <i class="bi bi-chevron-down"></i> Mostrar/Ocultar
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-success w-100" onclick="showAlert()">
+                    <i class="bi bi-check-circle"></i> Mostrar Alert
+                </button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary w-100" onclick="showToast()">
+                    <i class="bi bi-bell"></i> Toast
+                </button>
+            </div>
+        </div>
+
+        <!-- Collapse Component -->
+        <div class="collapse mb-4" id="collapseInfo">
+            <div class="card card-body bg-light">
+                <h5><i class="bi bi-lightbulb"></i> ¿Sabías que?</h5>
+                <p>Git fue creado por Linus Torvalds en 2005 para el desarrollo del kernel de Linux. Su nombre significa "tonto" en inglés británico.</p>
+            </div>
+        </div>
+
+        <!-- Alert Component -->
+        <div class="alert alert-success alert-dismissible fade" role="alert" id="successAlert">
+            <i class="bi bi-check-circle"></i> ¡Excelente! Has completado el tutorial de Git.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Toast Component -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast" class="toast" role="alert">
+                <div class="toast-header">
+                    <i class="bi bi-git text-primary me-2"></i>
+                    <strong class="me-auto">Git Notificación</strong>
+                    <small>Ahora</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body">
+                    ¡Bienvenido al mundo del control de versiones!
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Component -->
+        <div class="modal fade" id="infoModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Información Adicional</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Git es fundamental en el desarrollo moderno. Permite:</p>
+                        <ul>
+                            <li>Control de versiones distribuido</li>
+                            <li>Colaboración en equipo</li>
+                            <li>Historial completo de cambios</li>
+                            <li>Ramas para desarrollo paralelo</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="comandos">Comandos más populares de Git</h2>
+        
+        <!-- List Group Component con margenes y sombra -->
+        <div class="card shadow-lg mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-terminal"></i> Comandos Esenciales</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1"><code>git init</code></h6>
+                        </div>
+                        <p class="mb-1">Inicializa un nuevo repositorio Git en el directorio actual. Este comando crea un repositorio vacío.</p>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1"><code>git clone [url]</code></h6>
+                        </div>
+                        <p class="mb-1">Clona un repositorio remoto en tu máquina local. Ejemplo: <code>git clone https://github.com/usuario/repositorio.git</code>.</p>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1"><code>git status</code></h6>
+                        </div>
+                        <p class="mb-1">Muestra el estado del repositorio: archivos modificados, nuevos archivos no rastreados, cambios preparados para el commit, etc.</p>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1"><code>git add [archivo]</code></h6>
+                        </div>
+                        <p class="mb-1">Agrega un archivo o cambios específicos al área de preparación (staging area) para el commit.</p>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1"><code>git commit -m "[mensaje]"</code></h6>
+                        </div>
+                        <p class="mb-1">Crea un commit con los archivos añadidos al área de preparación, agregando un mensaje descriptivo.</p>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1"><code>git push</code></h6>
+                        </div>
+                        <p class="mb-1">Sube los cambios locales al repositorio remoto. Generalmente se usa después de un commit para actualizar el repositorio remoto.</p>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1"><code>git pull</code></h6>
+                        </div>
+                        <p class="mb-1">Obtiene y combina los cambios del repositorio remoto al local. Equivalente a <code>git fetch</code> seguido de <code>git merge</code>.</p>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1"><code>git checkout [rama]</code></h6>
+                        </div>
+                        <p class="mb-1">Cambia a una rama específica del repositorio. Si la rama no existe, se puede crear con <code>git checkout -b [rama]</code>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 id="comparacion">Comparación con otros sistemas</h2>
+        
+        <!-- Tabla estilizada -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Sistema</th>
+                        <th>Tipo</th>
+                        <th>Popularidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-success">
+                        <td><i class="bi bi-git"></i> Git</td>
+                        <td>Distribuido</td>
+                        <td><span class="badge bg-success">Muy alta</span></td>
+                    </tr>
+                    <tr class="table-warning">
+                        <td><i class="bi bi-archive"></i> SVN</td>
+                        <td>Centralizado</td>
+                        <td><span class="badge bg-warning text-dark">Media</span></td>
+                    </tr>
+                    <tr class="table-info">
+                        <td><i class="bi bi-circle"></i> Mercurial</td>
+                        <td>Distribuido</td>
+                        <td><span class="badge bg-info text-dark">Baja</span></td>
+                    </tr>
+                    <tr class="table-secondary">
+                        <td><i class="bi bi-building"></i> Perforce</td>
+                        <td>Centralizado</td>
+                        <td><span class="badge bg-secondary">Especializado</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 id="formulario">¿Ya usaste Git?</h2>
+        <p>Completá el siguiente formulario para compartir tu experiencia:</p>
+
+        <!-- Formulario estilizado -->
+        <div class="card shadow">
+            <div class="card-body">
+                <form class="form">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Tu nombre:</label>
+                        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingresa tu nombre">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="experiencia" class="form-label">¿Qué usás más?</label>
+                        <select id="experiencia" name="experiencia" class="form-select">
+                            <option value="git">Git</option>
+                            <option value="github">Git + GitHub</option>
+                            <option value="otro">Otro sistema</option>
+                            <option value="ninguno">Todavía no uso ninguno</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-send"></i> Enviar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Scripts personalizados -->
+    <script>
+        function showAlert() {
+            const alert = document.getElementById('successAlert');
+            const bsAlert = new bootstrap.Alert(alert);
+            alert.classList.add('show');
+            setTimeout(() => {
+                bsAlert.close();
+            }, 3000);
+        }
+
+        function showToast() {
+            const toastEl = document.getElementById('liveToast');
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+
+        // Manejar envío del formulario
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showToast();
+            this.reset();
+        });
+    </script>
+</body>
+</html>

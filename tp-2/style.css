@@ -1,0 +1,89 @@
+/* Estilos básicos del documento */
+body {
+    background-color: #222;
+    color: #ee6;
+}
+
+/* Centrar el título principal */
+h1 {
+    text-align: center;
+    color: #eee;
+    text-transform: uppercase;
+}
+
+/* Mostrar todos los párrafos con fuente sans-serif */
+p {
+    font-family: sans-serif;
+}
+
+/* Mostrar todos los títulos en color #eee */
+h1, h2, h3 {
+    color: #eee;
+    text-transform: uppercase;
+}
+
+/* Borde inferior blanco para elementos strong */
+strong {
+    border-bottom: 1px solid white;
+}
+
+/* Estilos para elementos con clase the-force */
+.the-force {
+    background-color: #444;
+    font-weight: bold;
+}
+
+/* Colores para light-side y dark-side */
+.light-side {
+    color: #66f;
+}
+
+.dark-side {
+    color: #f33;
+}
+
+/* Lista con ID og-trilogy */
+#og-trilogy {
+    list-style-type: circle;
+}
+
+/* Padding-left para el segundo listado de películas */
+.movies-list:nth-of-type(2) {
+    padding-left: 20px;
+}
+
+/* Margin-top para el último elemento del tercer listado */
+.movies-list:nth-of-type(3) li:last-child {
+    margin-top: 10px;
+}
+
+/* Bonus Tracks */
+
+/* Primera línea del primer párrafo en color #efe */
+p:first-of-type::first-line {
+    color: #efe;
+}
+
+/* Cambio de color del título principal al pasar el mouse */
+h1:hover {
+    color: #ff6;
+}
+
+/* Links visitados en color gris */
+a:visited {
+    color: gray;
+}
+
+/* Links sin href en cursiva */
+a:not([href]) {
+    font-style: italic;
+}
+
+/* Colores alternados para elementos de listas */
+.movies-list li:nth-child(odd) {
+    background-color: #111;
+}
+
+.movies-list li:nth-child(even) {
+    background-color: #333;
+}
