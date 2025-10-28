@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+</body>
+<script>
+  async function obtener() {
+    let respuesta = await fetch("https://restcountries.com/v3.1/name/Argentina");
+    let pais = await respuesta.json();
+    console.log(pais); 
+  }
+
+  obtener();
+</script>
+</html>

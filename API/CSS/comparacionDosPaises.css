@@ -1,0 +1,77 @@
+.container-compare {
+    display: flex;
+    flex-direction: column;
+
+    font-family: Arial, sans-serif;
+    max-width: 500px;
+    margin: 2rem auto;
+    justify-content: center;
+}
+
+.container-input{
+    display: grid;
+    grid-template-columns: 49% 49%;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+h1 {
+    text-align: center;
+    color: #fff;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    border: 1px solid #359d9e;
+    color: #fff;
+}
+
+.pais {
+    display: grid;
+    grid-template-columns: 40% 40%;
+    justify-content: center;
+    border: 1px solid #ccc;
+    
+    border-radius: 6px;
+    padding: 1rem;
+    margin: 1rem;
+    width: 500px;
+}
+
+button {
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+.contenedor-paises {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+img {
+    width: 150px;
+    border: 1px solid #aaa;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+.error {
+    color: red;
+    margin-top: 1rem;
+}
+
+.clima {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+#resultado {
+    color: #ccc;
+}

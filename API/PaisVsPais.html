@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>País vs País</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+    h1 {
+      margin-bottom: 2rem;
+    }
+    .pais-container {
+      display: flex;
+      justify-content: space-around;
+      margin: 2rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .pais {
+      border: 2px solid #ccc;
+      padding: 1rem;
+      width: 200px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .pais:hover {
+      transform: scale(1.05);
+      border-color: #333;
+    }
+    img {
+      width: 100%;
+      height: auto;
+    }
+    #pregunta {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    #resultado {
+      font-weight: bold;
+      margin-top: 1rem;
+      font-size: 1.2rem;
+    }
+    button {
+      margin-top: 2rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header id="header"></header>
+  <h1>País vs País</h1>
+
+  <div id="pregunta">Cargando pregunta...</div>
+
+  <div class="pais-container">
+    <div class="pais" id="pais1"></div>
+    <div class="pais" id="pais2"></div>
+  </div>
+
+  <div id="resultado"></div>
+
+  <button id="btnSiguiente">Siguiente</button>
+
+  <script>
+    let paises = [];
+    let paisA = null;
+    let paisB = null;
+    let criterio = "";
+    const criterios = ["poblacion", "superficie", "idiomas"];
+
+    async function cargarPaises() {
+      try {
+        const res = await fetch('https://restcountries.com/v3.1/all?fields=name,flags,population,area,languages');
+        const data = await res.json();
+
+        paises = data.filter(p =>
+          p.name && p.flags && p.population && p.area && p.languages
+        );
+
+        nuevaRonda();
+      } catch (error) {
+        document.getElementById("pregunta").textContent = "Error al cargar países.";
+        console.error(error);
+      }
+    }
+
+    function nuevaRonda() {
+      document.getElementById("resultado").textContent = "";
+
+      criterio = criterios[Math.floor(Math.random() * criterios.length)];
+
+      // Seleccionar 2 países distintos al azar
+      const i = Math.floor(Math.random() * paises.length);
+      let j;
+      do {
+        j = Math.floor(Math.random() * paises.length);
+      } while (i === j);
+
+      paisA = paises[i];
+      paisB = paises[j];
+
+      mostrarPregunta();
+      mostrarPaises();
+    }
+
+    function mostrarPregunta() {
+      const pregunta = {
+        poblacion: "¿Cuál país tiene más población?",
+        superficie: "¿Cuál país tiene más superficie?",
+        idiomas: "¿Cuál país habla más idiomas?"
+      };
+      document.getElementById("pregunta").textContent = pregunta[criterio];
+    }
+
+    function mostrarPaises() {
+      mostrarPais("pais1", paisA);
+      mostrarPais("pais2", paisB);
+    }
+
+    function mostrarPais(id, pais) {
+      const contenedor = document.getElementById(id);
+      contenedor.innerHTML = `
+        <img src="${pais.flags.png}" alt="Bandera de ${pais.name.common}">
+        <h3>${pais.name.translations?.spa?.common || pais.name.common}</h3>
+      `;
+      contenedor.onclick = () => verificarRespuesta(pais);
+    }
+
+    function verificarRespuesta(seleccionado) {
+      let valorA, valorB;
+
+      switch (criterio) {
+        case "poblacion":
+          valorA = paisA.population;
+          valorB = paisB.population;
+          break;
+        case "superficie":
+          valorA = paisA.area;
+          valorB = paisB.area;
+          break;
+        case "idiomas":
+          valorA = Object.keys(paisA.languages).length;
+          valorB = Object.keys(paisB.languages).length;
+          break;
+      }
+
+      const esCorrecto = (seleccionado === paisA && valorA >= valorB) ||
+                         (seleccionado === paisB && valorB >= valorA);
+
+      const mensaje = document.getElementById("resultado");
+      if (esCorrecto) {
+        mensaje.textContent = "¡Correcto! 🎉";
+        mensaje.style.color = "green";
+      } else {
+        const nombreA = paisA.name.translations?.spa?.common || paisA.name.common;
+        const nombreB = paisB.name.translations?.spa?.common || paisB.name.common;
+
+        let correcto = valorA >= valorB ? nombreA : nombreB;
+        mensaje.textContent = `Incorrecto. La respuesta correcta era: ${correcto}`;
+        mensaje.style.color = "red";
+      }
+
+      // Desactivar clics
+      document.getElementById("pais1").onclick = null;
+      document.getElementById("pais2").onclick = null;
+    }
+
+    // Eventos
+    document.getElementById("btnSiguiente").addEventListener("click", nuevaRonda);
+
+    // Iniciar
+    cargarPaises();
+  </script>
+  <script src="JS/main.js"></script>
+
+</body>
+</html>
