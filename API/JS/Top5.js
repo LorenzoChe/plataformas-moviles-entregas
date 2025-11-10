@@ -1,5 +1,5 @@
-    async function obtenerDatos() {
-      try {
+async function obtenerDatos() {
+    try {
         const res = await fetch('https://restcountries.com/v3.1/all?fields=name,population,area,languages');
         if (!res.ok) throw new Error('Error al obtener los datos de la API');
         const datos = await res.json();
@@ -57,5 +57,4 @@
       });
     }
 
-    // Ejecutar
-    obtenerDatos();
+obtenerDatos();

@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Comparar dos países</title>
-  <link rel="stylesheet" href="CSS/styles.css">
-  <link rel="stylesheet" href="CSS/comparacionDosPaises.css">
+  <link rel="stylesheet" href="CSS/bootstrap.min.css">
 </head>
 <body>
   <header id="header"></header>
@@ -21,84 +20,9 @@
   </div>
 
   <div id="error" class="error"></div>
-
   <div class="contenedor-paises" id="resultado"></div>
 
-  <script>
-    async function fetchPais(nombre) {
-      const res = await fetch(`https://restcountries.com/v3.1/name/${nombre}`);
-      if (!res.ok) throw new Error('País no encontrado: ' + nombre);
-      const data = await res.json();
-      return data[0];
-    }
-
-    async function fetchClima(lat, lon) {
-      const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
-      if (!res.ok) throw new Error('Error obteniendo clima');
-      const data = await res.json();
-      return data.current_weather;
-    }
-
-    function crearHtmlPais(pais, clima) {
-      const nombre = pais.name.common;
-      const capital = pais.capital?.[0] || 'Desconocida';
-      const bandera = pais.flags.png;
-      const poblacion = pais.population.toLocaleString();
-      const area = pais.area.toLocaleString();
-
-      return `
-        <div class="pais">
-          <div class="container-pais">
-              <h2>${nombre}</h2>
-              <img src="${bandera}" alt="Bandera de ${nombre}" />
-          </div>
-
-            <div class="container-info">
-              <p><strong>Capital:</strong> ${capital}</p>
-              <p><strong>Población:</strong> ${poblacion}</p>
-              <p><strong>Área:</strong> ${area} km²</p>
-              <div class="clima">
-                <h4>Clima en ${capital}</h4>
-                <p>Temperatura: ${clima.temperature} °C</p>
-                <p>Viento: ${clima.windspeed} km/h</p>
-                <p>Hora: ${clima.time}</p>
-              </div>
-            </div>
-        </div>
-      `;
-    }
-
-    async function compararPaises() {
-      const pais1Input = document.getElementById('pais1').value.trim();
-      const pais2Input = document.getElementById('pais2').value.trim();
-      const resultadoDiv = document.getElementById('resultado');
-      const errorDiv = document.getElementById('error');
-      resultadoDiv.innerHTML = '';
-      errorDiv.textContent = '';
-
-      if (!pais1Input || !pais2Input) {
-        errorDiv.textContent = 'Por favor, ingresa los nombres de ambos países.';
-        return;
-      }
-
-      try {
-        // Buscar ambos países
-        const [pais1, pais2] = await Promise.all([fetchPais(pais1Input), fetchPais(pais2Input)]);
-
-        // Obtener clima para ambas capitales
-        const [clima1, clima2] = await Promise.all([
-          fetchClima(pais1.latlng[0], pais1.latlng[1]),
-          fetchClima(pais2.latlng[0], pais2.latlng[1])
-        ]);
-
-        // Mostrar resultados
-        resultadoDiv.innerHTML = crearHtmlPais(pais1, clima1) + crearHtmlPais(pais2, clima2);
-
-      } catch (err) {
-        errorDiv.textContent = err.message;
-      }
-    }
-  </script>
+  <script src="JS/comparacionDosPaises.js"></script>
   <script src="JS/main.js"></script>
 </body>
 </html>

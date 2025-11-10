@@ -1,46 +1,47 @@
 async function buscarPais() {
-      const pais = document.getElementById('BuscarPais').value.trim();
-      const resultadoDiv = document.getElementById('resultado');
+  const pais = BuscarPais.value.trim();
+  const resultado = document.getElementById('resultado');
+  resultado.textContent = '';
 
-      try {
-        // Buscar país.
-        const resultadoPais = await fetch(`https://restcountries.com/v3.1/name/${pais}`);
-        const dataPais = await resultadoPais.json();
-        const paisInfo = dataPais[0];
+  const dataPais = await (await fetch(`https://restcountries.com/v3.1/name/${pais}`)).json();
+  const p = dataPais[0];
+  const nombre = p.name.common;
+  const capital = p.capital?.[0] || 'Desconocida';
+  const [lat, lon] = p.latlng;
+  const bandera = p.flags.png;
 
-        const nombre = paisInfo.name.common;
-        const capital = paisInfo.capital?.[0] || 'Desconocida';
-        const bandera = paisInfo.flags.png;
-        const lat = paisInfo.latlng[0];
-        const lon = paisInfo.latlng[1];
+  const climaData = await (await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`)).json();
+  const clima = climaData.current_weather;
 
-        // Buscar clima.
-        const resultadoClima = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
-        const dataClima = await resultadoClima.json();
-        const clima = dataClima.current_weather;
 
-        // Mostrar resultados.
-        resultadoDiv.innerHTML = `
-        <div class="resultado">
-          <div class="container-pais">
-          <h2>${nombre}</h2>
-            <img src="${bandera}" alt="Bandera de ${nombre}" width="180" />
-          </div>
-            
-            <div class="container-info">
-            <br> 
-            <p><strong>Capital:</strong> ${capital}</p>
-            <p><strong>Coordenadas:</strong> ${lat}, ${lon}</p>
-            <h3>Clima actual en ${capital}</h3>
-            <p><strong>Temperatura:</strong> ${clima.temperature} °C</p>
-            <p><strong>Viento:</strong> ${clima.windspeed} km/h</p>
-            <p><strong>Hora:</strong> ${clima.time}</p>
-          </div>
+  const divRes = document.createElement('div');
 
-        </div>
-          `;
-      } catch (error) {
-        resultadoDiv.innerHTML = 'Error al buscar datos. Verifica el nombre del país.';
-        console.error(error);
-      }
-    }
+  const h2 = document.createElement('h2');
+  h2.textContent = nombre;
+
+  const img = document.createElement('img');
+  img.src = bandera;
+  img.alt = `Bandera de ${nombre}`;
+  img.width = 180;
+
+  const pCapital = document.createElement('p');
+  pCapital.innerHTML = `<strong>Capital:</strong> ${capital}`;
+
+  const pCoords = document.createElement('p');
+  pCoords.innerHTML = `<strong>Coordenadas:</strong> ${lat}, ${lon}`;
+
+  const h3Clima = document.createElement('h3');
+  h3Clima.textContent = `Clima actual en ${capital}`;
+
+  const pTemp = document.createElement('p');
+  pTemp.innerHTML = `<strong>Temperatura:</strong> ${clima.temperature} °C`;
+
+  const pViento = document.createElement('p');
+  pViento.innerHTML = `<strong>Viento:</strong> ${clima.windspeed} km/h`;
+
+  const pHora = document.createElement('p');
+  pHora.innerHTML = `<strong>Hora:</strong> ${clima.time}`;
+
+  divRes.append(h2, img, pCapital, pCoords, h3Clima, pTemp, pViento, pHora);
+  resultado.appendChild(divRes);
+}

@@ -1,65 +1,42 @@
-    let paises = [];
-    let esReal = false;
-    let nombreActual = "";
+const nombresFalsos = [
+  "Florania", "San Morado", "Molvinea", "Castellora", "Peruvia",
+  "Zangaria", "Novarica", "Elboria", "Cartovia", "Ventora",
+  "Griflanda", "Oceandra", "Narnesia", "Tropania", "Azuria",
+  "Valdoria", "Montelvia", "Lumeria", "Cordania", "Estravia",
+  "Belmora", "Falindia", "Sylvania", "Orvania", "Caldora",
+  "Brastonia", "Rivoria", "Zelvania", "Ardenia", "Palestora",
+  "Veloria", "Norvanda", "Talandra", "Maravia", "Solendia"
+];
 
-    const nombresFalsos = [
-      "Floribia", "San Azúcar", "Molvania", "Castellónia", "Peruvania",
-      "Zangria", "Novarica", "Elboria", "Cartumbia", "Venturia",
-      "Griflandia", "Oceandor", "Narnesia", "Tropicana", "Azuria"
-    ];
 
-    async function cargarPaises() {
-      try {
-        const res = await fetch('https://restcountries.com/v3.1/all?fields=name');
-        if (!res.ok) throw new Error("No se pudieron cargar los países.");
-        const data = await res.json();
-        paises = data.map(p => p.name.common.toLowerCase());
-        mostrarNuevoNombre();
-      } catch (err) {
-        document.getElementById("nombre").textContent = "Error al cargar países.";
-        console.error(err);
-      }
-    }
+let paises = [], esReal, nombreActual;
 
-    function mostrarNuevoNombre() {
-      const resultado = document.getElementById("resultado");
-      resultado.textContent = "";
+async function cargarPaises() {
+  const res = await fetch('https://restcountries.com/v3.1/all?fields=name');
+  paises = (await res.json()).map(p => p.name.common.toLowerCase());
+  nuevoNombre();
+}
 
-      const usarReal = Math.random() < 0.5;
-      esReal = usarReal;
+function nuevoNombre() {
+  esReal = Math.random() < 0.5;
+  nombreActual = esReal 
+    ? paises[Math.floor(Math.random() * paises.length)] 
+    : nombresFalsos[Math.floor(Math.random() * nombresFalsos.length)].toLowerCase();
+  nombre.textContent = capitalizar(nombreActual);
+  resultado.textContent = "";
+}
 
-      if (usarReal) {
-        const nombre = paises[Math.floor(Math.random() * paises.length)];
-        nombreActual = nombre;
-      } else {
-        const nombre = nombresFalsos[Math.floor(Math.random() * nombresFalsos.length)];
-        nombreActual = nombre.toLowerCase();
-      }
+function verificar(r) {
+  resultado.textContent = r === esReal
+    ? "¡Correcto!"
+    : `"${capitalizar(nombreActual)}" ${esReal ? "sí existe." : "no es real."}`;
+  resultado.style.color = r === esReal ? "green" : "red";
+}
 
-      document.getElementById("nombre").textContent =
-        nombreActual.charAt(0).toUpperCase() + nombreActual.slice(1);
-    }
+const capitalizar = t => t[0].toUpperCase() + t.slice(1);
 
-    function verificarRespuesta(usuarioDiceQueEsReal) {
-      const resultado = document.getElementById("resultado");
+btnSi.onclick = () => verificar(true);
+btnNo.onclick = () => verificar(false);
+btnSiguiente.onclick = nuevoNombre;
 
-      if (usuarioDiceQueEsReal === esReal) {
-        resultado.textContent = "¡Correcto! ";
-        resultado.style.color = "green";
-      } else {
-        resultado.textContent = `Incorrecto. "${capitalizar(nombreActual)}" ${esReal ? "sí es un país real." : "no existe como país."}`;
-        resultado.style.color = "red";
-      }
-    }
-
-    function capitalizar(texto) {
-      return texto.charAt(0).toUpperCase() + texto.slice(1);
-    }
-
-    // Eventos
-    document.getElementById("btnSi").addEventListener("click", () => verificarRespuesta(true));
-    document.getElementById("btnNo").addEventListener("click", () => verificarRespuesta(false));
-    document.getElementById("btnSiguiente").addEventListener("click", mostrarNuevoNombre);
-
-    // Iniciar
-    cargarPaises();
+cargarPaises();
